@@ -15,7 +15,6 @@ Neste desafio foi separado em: data onde deverá conter os dados de input e outp
 ## Tecnologias
 Project is created with:
 * Python 3.8
-* numpy
 * pandas
 * Selenium
 * Pyspark
