@@ -122,7 +122,7 @@ class Scrapy:
     def _product_request(self):
 
         # Pagination and position to monitoring where the program i
-        while self._present_page <= 3:  # int(self._number_of_pages):
+        while self._present_page <= int(self._number_of_pages):
 
             position = 1
             # In each root page (in the pagination), will request each product individually
