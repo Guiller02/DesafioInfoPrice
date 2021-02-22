@@ -104,7 +104,7 @@ class Scrapy:
         # search all products
         products = self._driver.find_elements_by_class_name('product-grid-item')
 
-        if (self._have_number_of_page == False):
+        if not self._have_number_of_page:
             self._get_number_of_pages()
 
         # in each product, take the url and then append to _links
@@ -121,11 +121,12 @@ class Scrapy:
 
         # if you want to scrapy specific page to the last page, remove the comment where the comment have 2 #
 
-        ## i = 4
-        # Pagination and position to monitoring where the program i
-        while self._present_page <= int(self._number_of_pages):
+        # to change if you want to scrapy from an specific page forward, or leaves 1 to scrapy all pages
 
-        ## while i <= int(self._number_of_pages):
+        i = 1
+        # Pagination and position to monitoring where the program i
+
+        while i <= int(self._number_of_pages):
 
             gtins = []
 
@@ -139,7 +140,7 @@ class Scrapy:
 
             position = 1
 
-            ## self._present_page = i
+            self._present_page = i
             # In each root page (in the pagination), will request each product individually
             self._root_request()
 
@@ -190,6 +191,9 @@ class Scrapy:
 
                     print('---------------------')
 
+                else:
+                    print('this product is from Market place')
+
                 self._gtins = gtins
 
                 self._descriptions = descriptions
@@ -208,11 +212,9 @@ class Scrapy:
                 # closing the chrome and then quiting to not throw a error after finishing the script
                 self._driver.close()
 
-            ## i +=1
+            i += 1
 
-
-
-            #self._present_page = self._present_page + 1
+            # self._present_page = self._present_page + 1
 
             # Sleep 5 minutes, to not overload the americanas server
             print('Getting to next page')
@@ -241,7 +243,7 @@ class Scrapy:
             self._output_location + '/scrapy_output/americanas_' + str(self._present_page) + '.csv',
             sep=';', index=False)
 
-        print('Finished writing americanas'+str(self._present_page)+'.csv')
+        print('Finished writing americanas' + str(self._present_page) + '.csv')
         print('---------------------------------')
 
 
