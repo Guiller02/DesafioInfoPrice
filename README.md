@@ -5,6 +5,7 @@
 * [Arquitetura do projeto](#arquitetura-do-projeto)
 * [Tecnologias](#tecnologias)
 * [Como utilizar o projeto](#como-utilizar-o-projeto)
+* [A fazer](#a-fazer)
 
 ## Informações gerais
 Neste projeto, haviam dois desafios, um de desenvolver um ETL dos arquivos e o outro de fazer um web scrapping de alguma pagina, na qual foi escolido a da americanas
@@ -19,5 +20,5 @@ Project is created with:
 * Selenium
 * Pyspark
 
-## Como utilizar o projeto
-Este projeto utiliza o Selenium para rodar o web scrapping, para que o projeto funcione, é necessário que baixe a ultima versão do chrome. O projeto demora um pouco devido ao sleep que existe dentro do scrapy
+## A fazer
+Caso esse aviso esteja aqui, o script de web scraping, ainda está rodando, gerando os novos resultados.
