@@ -15,27 +15,12 @@ class Load:
         self._final_dataframe = final_dataframe
         self._output_location = output_location
 
-    # Start conection with spark
-    def _create_connection(self):
-        print('Starting Load step')
-        findspark.init()
-
-        conf = SparkConf().setAppName('Gtin_Project').setMaster('local')
-
-        sc = SparkContext(conf=conf)
-
-        self._sql_c = SQLContext(sc)
-
-    # Create a spark dataframe
-    def _create_spark_dataframe(self, dataframe) -> list:
-        self._create_connection()
-        return self._sql_c.createDataFrame(dataframe)
-
     # Write dataframe to csv (as i'm not using hadoop vm or anything, i will write to local hardware)
     def write_dataframe(self):
-        self._spark_dataframe = self._create_spark_dataframe(self._final_dataframe)
-        self._spark_dataframe.write.csv(self._output_location + 'Gtin_output/gtin.csv', mode='overwrite')
-        print('Finished Load step')
+        self._final_dataframe.to_csv(self._output_location + 'Gtin_output/gtin_data.csv', sep=';', index=False)
+
+        print('Finished Load')
+        # self._sc.stop()
         print('---------------------------------')
 
 

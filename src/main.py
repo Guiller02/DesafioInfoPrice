@@ -1,6 +1,11 @@
 from src.Gtin_Project import Transform, Extract, Load
-from src.Scrap_project import Scrapy, Load as Loa
+from src.Scrap_project import Scrapy
 from time import sleep
+
+# The main file contains both project, but if you want, you can run each one individually, running
+# Load file on Gtin_Project and Scrapy in Scrap_project
+
+# Gtin project
 
 print('Starting Gtin project ')
 ex = Extract.Extract('../data/input/')
@@ -23,17 +28,14 @@ lo.write_dataframe()
 
 print('Finished gtin project')
 
+# Scrapy project
+
 print('-------------')
 
 print('Starting scrapy project')
 
-for i in range(1, 5):
-    sc = Scrapy.Scrapy('https://www.americanas.com.br/categoria/tv-e-home-theater/tv/pagina-' + str(i))
+sc = Scrapy.Scrapy('https://www.americanas.com.br/categoria/tv-e-home-theater/tv/pagina-', '../data/output/')
 
-    sc.scrapy()
+sc.scrapy()
 
-    loa = Loa.Load(sc.americanas_dataframe, '../data/output/', i)
-
-    loa.write_dataframe()
-    sleep(5000)
 print('Finished Scrapy project')
