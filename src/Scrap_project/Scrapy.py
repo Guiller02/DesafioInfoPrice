@@ -119,8 +119,13 @@ class Scrapy:
 
     def _product_request(self):
 
+        # if you want to scrapy specific page to the last page, remove the comment where the comment have 2 #
+
+        ## i = 4
         # Pagination and position to monitoring where the program i
-        while self._present_page <= 3:  # int(self._number_of_pages):
+        while self._present_page <= int(self._number_of_pages):
+
+        ## while i <= int(self._number_of_pages):
 
             gtins = []
 
@@ -133,6 +138,8 @@ class Scrapy:
             url_pictures = []
 
             position = 1
+
+            ## self._present_page = i
             # In each root page (in the pagination), will request each product individually
             self._root_request()
 
@@ -200,7 +207,12 @@ class Scrapy:
 
                 # closing the chrome and then quiting to not throw a error after finishing the script
                 self._driver.close()
-            self._present_page = self._present_page + 1
+
+            ## i +=1
+
+
+
+            #self._present_page = self._present_page + 1
 
             # Sleep 5 minutes, to not overload the americanas server
             print('Getting to next page')
