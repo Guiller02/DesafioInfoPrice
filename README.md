@@ -20,4 +20,4 @@ Project is created with:
 * Pyspark
 
 ## Como utilizar o projeto
-Este projeto utiliza o spark local, armazenando os dados no próprio disco, sendo assim, deve se instalar a ultima versão do spark na máquina, para utilizar o web scrapping, deverá ter instalado na máquina a ultima versão do chrome, para que o selenium funcione
+Este projeto utiliza o Selenium para rodar o web scrapping, para que o projeto funcione, é necessário que baixe a ultima versão do chrome. O projeto demora um pouco devido ao sleep que existe dentro do scrapy
