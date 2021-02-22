@@ -71,8 +71,6 @@ class Scrapy:
     # The main method, that will call the others methods
     def scrapy(self):
         self._product_request()
-        self._create_dataframe()
-        self._write_dataframe()
 
     # Get the number of pages the root have, to make a loop
 
@@ -122,7 +120,17 @@ class Scrapy:
     def _product_request(self):
 
         # Pagination and position to monitoring where the program i
-        while self._present_page <= int(self._number_of_pages):
+        while self._present_page <= 3:  # int(self._number_of_pages):
+
+            gtins = []
+
+            descriptions = []
+
+            prices = []
+
+            urls = []
+
+            url_pictures = []
 
             position = 1
             # In each root page (in the pagination), will request each product individually
@@ -131,53 +139,63 @@ class Scrapy:
             # Unfortunately, all links in the site have the same class, so to not take others contents that is not
             # on the pagination, i will take the 24 positions (4 columns x 6 rows)
             for _ in self._links[0:24]:
-                try:
 
-                    print('Page: ', self._present_page, 'of : ', self._number_of_pages)
+                print('Page: ', self._present_page, 'of : ', self._number_of_pages)
 
-                    print('Scraping product', position, 'of 24')
-                    self._get_request(_)
+                print('Scraping product', position, 'of 24')
+                self._get_request(_)
 
-                    # to see if the product its market place, if is, will only close the chrome
+                # to see if the product its market place, if is, will only close the chrome
 
-                    if 'Este produto é vendido e entregue por Americanas.' in self._driver.find_element_by_class_name(
-                            'offers-box__Wrapper-sc-189v1x3-0').text:
-                        # because the gtin does not have an id or a unique class, we need to take all content in the table
-                        # and then take the second position and then clean the string to append only the id
+                if 'Este produto é vendido e entregue por Americanas.' in self._driver.find_element_by_class_name(
+                        'offers-box__Wrapper-sc-189v1x3-0').text:
+                    # because the gtin does not have an id or a unique class, we need to take all content in the table
+                    # and then take the second position and then clean the string to append only the id
 
-                        gtin = self._driver.find_elements_by_class_name('src__View-sc-70o4ee-7')
+                    gtin = self._driver.find_elements_by_class_name('src__View-sc-70o4ee-7')
 
-                        self._gtins.append(gtin[1].text.replace('Código de barras', '').strip())
+                    gtins.append(gtin[1].text.replace('Código de barras', '').strip())
 
-                        self._descriptions.append(
-                            self._driver.find_element_by_class_name('src__Text-sc-154pg0p-0').text)
+                    descriptions.append(
+                        self._driver.find_element_by_class_name('src__Text-sc-154pg0p-0').text)
 
-                        price = self._driver.find_element_by_class_name('src__BestPrice-sc-1jvw02c-5').text
+                    price = self._driver.find_element_by_class_name('src__BestPrice-sc-1jvw02c-5').text
 
-                        self._prices.append(price.replace('R$ ', ''))
+                    prices.append(price.replace('R$ ', ''))
 
-                        # how we are already using the url in the loop, have no need to search the url in the site
+                    # how we are already using the url in the loop, have no need to search the url in the site
 
-                        self._urls.append(_)
+                    urls.append(_)
 
-                        self._url_pictures.append(
-                            self._driver.find_element_by_class_name('src__Image-xr9q25-0').get_attribute('src'))
+                    url_pictures.append(
+                        self._driver.find_element_by_class_name('src__Image-xr9q25-0').get_attribute('src'))
 
-                        # print of the last content in the array
-                        print(self._gtins[-1])
+                    # print of the last content in the array
+                    print(gtins[-1])
 
-                        print(self._descriptions[-1])
+                    print(descriptions[-1])
 
-                        print(self._prices[-1])
+                    print(prices[-1])
 
-                        print(self._urls[-1])
+                    print(urls[-1])
 
-                        print(self._url_pictures[-1])
+                    print(url_pictures[-1])
 
-                        print('---------------------')
+                    print('---------------------')
 
-                except:
-                    pass
+                self._gtins = gtins
+
+                self._descriptions = descriptions
+
+                self._prices = prices
+
+                self._urls = urls
+
+                self._url_pictures = url_pictures
+
+                self._create_dataframe()
+                self._write_dataframe()
+
                 position += 1
 
                 # closing the chrome and then quiting to not throw a error after finishing the script
@@ -208,10 +226,10 @@ class Scrapy:
 
     def _write_dataframe(self):
         self.americanas_dataframe.to_csv(
-            self._output_location + '/scrapy_output/americanas.csv',
+            self._output_location + '/scrapy_output/americanas_' + str(self._present_page) + '.csv',
             sep=';', index=False)
 
-        print('Finished Load')
+        print('Finished writing americanas'+str(self._present_page)+'.csv')
         print('---------------------------------')
 
 
